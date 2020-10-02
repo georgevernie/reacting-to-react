@@ -8,14 +8,19 @@ function App(props) {
 
 //Typescript
 interface AppProps {
-  name?: "James";
-  city?: "Elks Town";
+  name?: string;
+  city?: string;
   hasLoaded?: Boolean;
+  onChange?: string;
 }
 
-class App extends Component<AppProps>{
-    constructor(Component){
-      super(Component);
+interface StateLoaded{
+  loaded?: boolean;
+  hasLoaded?: boolean;
+}
+class App extends Component<AppProps, StateLoaded>{
+    constructor(props: AppProps){
+      super(props);
       this.state = {
         loaded: false,
         hasLoaded:false,
@@ -25,12 +30,13 @@ class App extends Component<AppProps>{
     componentDidMount(){
       console.log("Inside Component Did Mount!");
       this.setState({
-        ready: true
+        hasLoaded:false,
       });
     }
-    handleClick(e) {
+    handleClick(){
       this.setState({
           loaded: true,
+          //hasLoaded: true
       });
     }
     
