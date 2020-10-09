@@ -10,13 +10,14 @@ function App(props) {
 interface AppProps {
   name?: string;
   city?: string;
+  loaded?: Boolean;
   hasLoaded?: Boolean;
   onChange?: string;
 }
 
 interface StateLoaded{
-  loaded?: boolean;
-  hasLoaded?: boolean;
+  loaded?: Boolean;
+  hasLoaded?: Boolean;
 }
 class App extends Component<AppProps, StateLoaded>{
     constructor(props: AppProps){
