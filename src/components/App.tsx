@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 
 /*
 function App(props) {
@@ -6,62 +6,73 @@ function App(props) {
 }
 */
 
-//Typescript
+//Typescript Removed ? from types such as name?: which states the specified type as optional.
 interface AppProps {
-  name?: string;
-  city?: string;
-  loaded?: Boolean;
-  hasLoaded?: Boolean;
-  onChange?: string;
+  name: string;
+  city: string;
+  loaded: Boolean;
+  hasLoaded: Boolean;
+  onChange: string;
 }
 
-interface StateLoaded{
-  loaded?: Boolean;
-  hasLoaded?: Boolean;
+interface AppLoaded{
+  loaded: Boolean;
+  hasLoaded: Boolean;
 }
-class App extends Component<AppProps, StateLoaded>{
+
+const Welcome = (props: { name: React.ReactNode; city: React.ReactNode; }) =>{
+  return <h1>Hello {props.name}! Welcome to {props.city}.</h1>;
+}
+
+class App extends Component<AppProps, AppLoaded>{
     constructor(props: AppProps){
       super(props);
       this.state = {
         loaded: false,
-        hasLoaded:false,
+        hasLoaded:false
       };
       this.handleClick = this.handleClick.bind(this);
     }
+    
     componentDidMount(){
       console.log("Inside Component Did Mount!");
       this.setState({
         hasLoaded:false,
       });
     }
-    handleClick(){
+    //This context binding is a shortcut for: 
+    //this.handleClick = this.handleClick.bind(this); which is normally within the constructor.
+    //This is not safe in vanilla js.
+    handleClick = () => {
       this.setState({
           loaded: true,
-          //hasLoaded: true
       });
     }
-    
     render() {
-      if(this.state.loaded){
+      const {loaded} = this.state; // Destructuring state properties
+      const {hasLoaded, name, city, onChange} = this.props
+
+      if(loaded){
         console.log("success");
         return(
-        <Fragment>{this.props.name}: {this.props.onChange}</Fragment>
+        <>{name}: {onChange}</>
         );
       }
-      else if(this.props.hasLoaded === false){
+      else if(hasLoaded === false){
         return(
-          <Fragment>
+          <>
             <h2>Loading...</h2>
             <button onClick={this.handleClick}>Greet Anyway</button>
-          </Fragment>
+          </>
         );
       }  
       else{
         return (  
-          <Fragment>
-            <h1>Hello {this.props.name}! Welcome to {this.props.city}.</h1>
+          <>
+            <Welcome name={"Artichoke"} city={"Marvin Land"}></Welcome>
+            <h1>Hello {name}! Welcome to {city}.</h1>
             <button onClick={this.handleClick}>Greet</button>
-          </Fragment>
+          </>
         );
       }
     }
